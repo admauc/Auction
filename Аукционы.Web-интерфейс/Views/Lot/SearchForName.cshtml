@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Auctions.Domain.Entities.Lot>
+@{
+    ViewBag.Title = "SearchForName";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 id="main_title">Поиск лотов</h2>
+<table class="Grid">
+    <tr class="NumericCol1">
+        <th>Название лота</th>
+        <th>Начальная цена</th>
+        <th>Текущая ставка</th>
+        <th>Стоймость выкупа</th>
+        <th>Описание</th>
+        <th>Время действия</th>
+        <th>Фото</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        if (item.CurrentPrice > item.StartPrice && item.Name != null)
+        {
+            <tr class="NumericCol2">
+                <td style="font-size: 20px; font-weight: bolder; border-left: 2px solid gray;">@item.Name</td>
+                <td>@item.StartPrice.ToString("c")</td>
+                <td>
+                    @item.CurrentPrice.ToString("c")<br>
+                    @using (Html.BeginForm("CreateBid", "User", FormMethod.Post, new { item.LotID }))
+                    {
+
+                        @Html.Hidden("LotID", item.LotID)
+                        <input class="bids" type="number" min="1" name="Bid" value="1,00" required="required" />
+                        <input class="lotname3" type="submit" value="Ставка" />
+                    }
+                </td>
+
+                <td>
+                    @item.BuyPrice.ToString("c")<br><br><br>
+                    @using (Html.BeginForm("AddToCart", "Cart", new { item.LotID }))
+                    {
+
+                        @Html.Hidden("LotID", item.LotID)
+                        <input class="lotname3" type="submit" value="Купить лот" />
+                    }
+                </td>
+                <td>@item.Description</td>
+                <td>с @item.StartDate.Day.@item.StartDate.Month.@item.StartDate.Year<br>по @item.EndDate.Day.@item.EndDate.Month.@item.EndDate.Year</td>
+                <td>
+                    <img id="ere" src="@Url.Action("GetImage", "Lot", new {
+        item.LotID })" />
+                </td>
+
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <h2 id="main_title">Нет совпадений!</h2>
+                </td>
+            </tr>
+        }
+    }
+</table>
+<p>@Html.ActionLink("Создать новый лот", "Create")</p>
+

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Auctions.Domain.Entities.Lot>
+@{
+    ViewBag.Title = "LinkLot";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 id="main_title">Страница лота</h2>
+
+
+<table class="Grid">
+    <tr class="NumericCol1">
+        <th>Название лота</th>
+        <th>Начальная цена</th>
+        <th>Текущая ставка</th>
+        <th>Стоймость выкупа</th>
+        <th>Описание</th>
+        <th>Время действия</th>
+        <th>Фото</th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr class="NumericCol2">
+            <td style="font-size: 20px; font-weight: bolder; border-left: 2px solid gray;">@item.Name</td>
+            <td>@item.StartPrice.ToString("c")</td>
+            <td>
+                @item.CurrentPrice.ToString("c")<br>
+                @using (Html.BeginForm("CreateBid", "User", FormMethod.Post))
+                {
+
+                    @Html.Hidden("LotID", item.LotID)
+                    <input class="bids" type="number" name="Bid" min="0" value="1,00" required />
+                    <input class="lotname3" type="submit" value="Ставка" />
+                }
+            </td>
+
+            <td>
+                @item.BuyPrice.ToString("c")<br><br><br>
+                @using (Html.BeginForm("BuyLot", "User", new { item.LotID }))
+                {
+
+                    @Html.Hidden("LotID", item.LotID)
+                    <input class="lotname3" type="submit" value="Купить лот" />
+                }
+            </td>
+            <td>@item.Description</td>
+            <td>с @item.StartDate.Day.@item.StartDate.Month.@item.StartDate.Year<br>по @item.EndDate.Day.@item.EndDate.Month.@item.EndDate.Year</td>
+            <td>
+                <img id="ere" src="@Url.Action("GetImage", "Lot", new {item.LotID })" />
+            </td>
+
+        </tr>
+    }
+</table>
+<p>@Html.ActionLink("Создать новый лот", "Create")</p>

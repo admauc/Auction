@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Auctions.Domain.Entities.Category>
+@{
+    ViewBag.Title = "Список категорий";
+}
+
+@foreach(var item in Model)
+{
+<ul class="mmenuu">
+    <li>
+        <a href=#>@Html.DisplayFor(modelItem => item.Section.Name)</a>
+        <ul class="ssubmenuu">
+            <li><a href=#>@Html.DisplayFor(modelItem => item.Name)</a></li>
+        </ul>
+    </li>
+</ul>
+}

@@ -1,0 +1,25 @@
+﻿@model Auctions.Domain.Entities.EmailModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+}
+<section id="loginform">
+    <h2>Отправка Email</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Form</legend>
+
+            @Html.EditorForModel()
+
+            <input type="submit" value="Отправить"/>
+
+        </fieldset>
+    }
+</section>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

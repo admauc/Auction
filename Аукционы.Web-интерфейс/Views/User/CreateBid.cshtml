@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Auctions.Domain.Entities.Lot>
+@{
+    ViewBag.Title = "Мои ставки";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+
+<h2 id="titH3">Мои ставки</h2>
+
+    @foreach (var item in Model)
+    {
+        if(item.CurrentPrice > item.StartPrice)
+        {
+            <h2 id="main_title">@item.Name</h2>
+        <table class="Grid" style="table-layout: auto; margin: auto;">
+            <tr class="NumericCol2">
+                <th>Название лота</th>
+                <td style="font-size: 20px; font-weight: bolder;">@item.Name</td>
+            </tr>
+            <tr class="NumericCol2">
+                <th>Начальная цена</th>
+                <td>@item.StartPrice.ToString("c")</td>
+            </tr>
+            <tr class="NumericCol2">
+                <th>Текущая ставка</th>
+                <td>
+                    @if (item.CurrentPrice > item.StartPrice)
+                {
+                        @item.CurrentPrice.ToString("c")<br />
+                    }
+                    else
+                    {
+                        @:Ставок еще нет<br />
+                    }
+                    @using (Html.BeginForm("ShiftBid", "User", FormMethod.Post))
+                    {
+                        <input type="text" value="@item.LotID" name="LotID" style="display:none" />
+                        <input class="bids" type="number" name="Bid" min="0" required />
+                        <input class="lotname3" type="submit" value="Ставка" />
+                    }
+                </td>
+            </tr>
+            <tr class="NumericCol2">
+                @if (item.BuyPrice > 0)
+                {
+                    <th>Стоймость выкупа</th>
+                }
+                @if (item.BuyPrice > 0)
+                {
+                    <td>
+                        @item.BuyPrice.ToString("c")<br><br />
+                        <p>@Html.ActionLink("Купить", "LotBuy", new { item.LotID }, new { @class = "lotname3", style = "padding: 5px 10px 9px 10px" })</p>
+                    </td>
+                }
+            </tr>
+            <tr class="NumericCol2">
+                <th>Описание</th>
+                <td>@item.Description</td>
+            </tr>
+            <tr class="NumericCol2">
+                <th>Время действия</th>
+                <td>с @item.StartDate.Day.@item.StartDate.Month.@item.StartDate.Year<br>по @item.EndDate.Day.@item.EndDate.Month.@item.EndDate.Year</td>
+            </tr>
+            <tr class="NumericCol2">
+                <th>Фото</th>
+                <td>
+                    <img id="ere" src="@Url.Action("GetImage", "Lot", new {item.LotID })" />
+                </td>
+            </tr>
+        </table>
+        <hr style="margin-top: 20px;
+        margin-bottom: 30px;
+        margin-right: 40px;
+        margin-left:20px;
+        border: 0;
+        border: 1px solid #efb764;
+        box-shadow: 0px 1px 8px 1px black;" />
+        }
+        else
+        {
+
+        }
+    }
+<p>@Html.ActionLink("Создать новый лот", "Create")</p>

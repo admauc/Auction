@@ -1,0 +1,84 @@
+﻿@model Auctions.Domain.Entities.Lot
+@{
+    ViewBag.Title = "Изменить лот";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+
+<h2 id="titH4">Создание лота</h2>
+
+<h1>@Model.Name</h1>
+<div class="form-group">
+    <label class="col-md-2 control-label">Фото</label>
+    <div class="editor-field">
+        @if (Model.ImageData == null)
+        {
+            @:Нет фото
+        }
+        else
+        {
+            <img id="imgedit" name="image" width="150" height="150" src="@Url.Action("GetImage", "Lot", new {Model.LotID })" />
+        }
+    </div>
+    </div>
+    @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+            <div class="form-group" style="display : none;">
+                @Html.LabelFor(m => m.LotID, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.LotID, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, "Название", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, "Описание", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Время действия(Дней)</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="number" name="days" value="30" />
+                </div>
+            </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.StartPrice, "Начальная цена", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.StartPrice, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.BuyPrice, "Стоймость выкупа", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.BuyPrice, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Category, "Категория", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Category", new SelectList(new string[] { "Телефоны и смартфоны", "Ноутбуки компьютеры", "Коллекционирование", "Искусство Антиквариат Живопись", "Детские товары Игрушки", "Авто Мото Вело GPS", "Дом Дача Недвижимость", "Здоровье Красота Услуги", "Книги Фильмы Игры", "Монеты", "Обувь Одежда Аксессуары", "Спорт Туризм Отдых", "Техника и оборудование", "Электроника" }), "Категории", new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Загрузите фото:</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="file" name="image" required="required"/>
+                    </div>
+                </div>
+
+                <div id="forbut1">
+                    <input class="but1" type="submit" value="Сохранить" />
+                    <p style="padding-top: 30px;">@Html.ActionLink("Сброс и возврат к списку лотов", "Index")</p>
+                </div>
+}
+
+

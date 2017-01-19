@@ -1,0 +1,12 @@
+﻿@model Auctions.WebUI.Models.LotsListViewModel
+@using Auctions.WebUI.HtmlHelpers
+<ul class="pager">
+    <li>
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
+    </li>
+</ul>
+
+<div class="pager">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+
+</div>

@@ -1,0 +1,22 @@
+﻿@model Auctions.WebUI.Models.LotsListViewModel
+@using Auctions.WebUI.HtmlHelpers
+@{
+    ViewBag.Title = "Все лоты";
+}
+
+<h2 id="main_title">Главная</h2>
+
+
+<div>
+    @foreach (var p in Model.Lots)
+            {
+                Html.RenderPartial("LotSummary", p);
+            }
+</div>
+@Html.Partial("_PageListPartial")
+
+
+
+
+
+

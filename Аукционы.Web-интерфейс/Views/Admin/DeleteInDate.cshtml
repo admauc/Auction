@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Auctions.Domain.Entities.Lot>
+@{
+    ViewBag.Title = "Завершенные лоты";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Html.ActionLink("Завершенные лоты", "DeleteInDate")
+
+<h1>Все лоты</h1>
+<table class="Grid1" style="table-layout: auto; margin:auto;">
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Категория</th>
+        <th>Начальная цена</th>
+        <th class="NumericCol">Текущая цена</th>
+        <th>Цена выкупа</th>
+        <th>Удаление</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.LotID</td>
+            <td>@Html.ActionLink(item.Name, "Edit", new { item.LotID })</td>
+            <td>@item.Category</td>
+            <td>@item.StartPrice</td>
+            @if (item.CurrentPrice > item.StartPrice)
+            {
+                <td class="NumericCol">@item.CurrentPrice.ToString("c")</td>
+            }
+            else
+            {
+                <td>Ставок еще нет</td>
+            }
+            @if (item.BuyPrice > 0)
+            {
+                <td>@item.BuyPrice</td>
+            }
+            else
+            {
+                <td>---</td>
+            }
+
+            <td>
+                @using (Html.BeginForm("Delete", "Admin"))
+                {
+                    @Html.Hidden("LotID", item.LotID)
+                    <input type="submit" value="Delete" />
+                }
+            </td>
+        </tr>
+    }
+</table>
+<p>@Html.ActionLink("Создать новый лот", "Create")</p>

@@ -1,0 +1,36 @@
+﻿@model Auctions.Domain.Entities.Lot
+@{
+    ViewBag.Title = "Покупка лота";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 id="main_title">Покупка лота @Model.Name</h2><hr/>
+
+    <ul>
+        <li><h3>Описание: @Model.Description</h3><hr /></li>
+        <li><h3>Время действия: с @Model.StartDate.Day.@Model.StartDate.Month.@Model.StartDate.Year<br>по @Model.EndDate.Day.@Model.EndDate.Month.@Model.EndDate.Year</h3><hr /></li>
+        <li><h3>Стоймость выкупа @Model.BuyPrice</h3><hr /></li>
+        <li>
+            <h3>Фото</h3>
+            <div class="editor-field">
+                @if (Model.ImageData == null)
+                {
+                    @:Нет изображения
+                }
+                else
+                {
+                    <img id="imgedit" name="image" width="150" height="150" src="@Url.Action("GetImage", "Lot", new { Model.LotID })" />
+                }
+            </div>
+        </li>
+    </ul><br /><br />
+
+@using (Html.BeginForm("EndBuy", "Home", FormMethod.Post))
+{
+    <h3>Для продолжения введите номер телефона</h3>
+        @Html.Hidden("LotID", Model.LotID)
+        @Html.Hidden("userTo", Model.UserEmail)
+        @Html.Hidden("userFrom", User.Identity.Name)
+        <input class="bids" type="text" name="phone" required />
+        <input class="lotname3" type="submit" value="Купить" />
+}

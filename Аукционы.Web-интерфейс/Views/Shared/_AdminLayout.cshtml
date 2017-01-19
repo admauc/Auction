@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <div id="wrapper">
+        @Html.Partial("_LoginPartial")
+        <div id="dtitle">
+            <h2 class="title1">AUCTION</h2>
+        </div>
+    </div>
+
+    <div id="categories">
+
+        @{ Html.RenderAction("Menu", "Nav"); }
+
+    </div>
+
+    <div id="content">
+        <div style="width: 98%" class="container body-content">
+            <h3 id="k1">Поиск лотов</h3>
+            <form action="/Lot/SearchForName" method="post">
+                <input id="find" type="search" name="searchString" value="" />
+                <input class="button3" type="submit" value="Найти" />
+            </form>
+            <div>
+                <ul class="lotnav">
+                    <li>
+                        @using (Html.BeginForm("Create", "User", FormMethod.Get))
+                        {
+                            <input class="but1" type="submit" value="Создать лот" />
+                        }
+                    </li>
+                    <li>
+                        @using (Html.BeginForm("Index", "User", FormMethod.Get))
+                        {
+                            <input class="but2" type="submit" value="Мои Лоты" />
+                        }
+                    </li>
+                    <li>
+                        @using (Html.BeginForm("CreateBid", "User", FormMethod.Get))
+                        {
+                            <input class="but3" type="submit" value="Мои ставки" />
+                        }
+                    </li>
+                </ul>
+            </div>
+
+            <form class="grt">
+                @RenderBody()
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

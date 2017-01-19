@@ -1,0 +1,30 @@
+﻿@model Auctions.Domain.Entities.Lot
+@{
+    ViewBag.Title = "Создание лота";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+
+<h2>Create</h2>
+
+<h1>Edit @Model.Name</h1>
+@using (Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="editor-label">Image</div>
+    <div class="editor-field">
+        @if (Model.ImageData == null)
+        {
+            @:None
+        }
+        else
+        {
+            <img width="150" height="150" src="@Url.Action("GetImage", "Lot", new {Model.LotID })" />
+        }
+        <div>
+            Upload new image:
+            <input type="file" name="image" required="required" />
+        </div>
+    </div>
+    <input type="submit" value="Save" />
+    @Html.ActionLink("Cancel and return to List", "Index")
+}

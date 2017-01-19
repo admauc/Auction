@@ -1,0 +1,59 @@
+﻿@model Auctions.Domain.Entities.Lot
+
+<div class="item0" style="background-image: url(@Url.Action("GetImage", "Lot", new {
+        Model.LotID })); background-size: cover;">
+
+    @if (Model.UserEmail == User.Identity.Name)
+    {
+        <h4 class="lotname">@Html.ActionLink("Ваш лот -", "MyLot", new { Model.LotID }) @Html.ActionLink(Model.Name, "MyLot", new { Model.LotID })</h4>
+    }
+    else
+    {
+        <h4 class="lotname">@Html.ActionLink(Model.Name, "LinkLot", new { Model.LotID })</h4>
+    }
+
+
+    <div class="item1">
+        <h5 style="margin-top: 5px;">Действует с @Model.StartDate.Day.@Model.StartDate.Month.@Model.StartDate.Year по @Model.EndDate.Day.@Model.EndDate.Month.@Model.EndDate.Year</h5>
+
+        @if (Model.CurrentPrice > Model.StartPrice)
+        {
+            <h5 class="opn">Начальная цена @Model.StartPrice.ToString("c")</h5>
+            if (Model.UserEmail == User.Identity.Name)
+            {
+                <h4 class="lotname">@Html.ActionLink("Текущая ставка", "MyLot", new { Model.LotID }) <br /> @Html.ActionLink(Model.CurrentPrice.ToString("c"), "MyLot", new { Model.LotID })</h4>
+            }
+            else
+            {
+                <h4 class="lotname">@Html.ActionLink("Текущая ставка", "LinkLot", new { Model.LotID }) <br /> @Html.ActionLink(Model.CurrentPrice.ToString("c"), "LinkLot", new { Model.LotID })</h4>
+            }
+
+        }
+        else if (Model.CurrentPrice == Model.StartPrice)
+        {
+
+            <h5 class="opn">Начальная цена @Model.StartPrice.ToString("c")</h5>
+            if (Model.UserEmail == User.Identity.Name)
+            {
+                <h4 class="lotname">@Html.ActionLink("Ставок еще нет", "MyLot", new { Model.LotID })</h4>
+            }
+            else
+            {
+                <h4 class="lotname">@Html.ActionLink("Ставок еще нет", "LinkLot", new { Model.LotID })</h4>
+            }
+
+        }
+
+        @if (Model.BuyPrice > 0)
+        {
+            <h5 class="opn">Выкуп лота @Model.BuyPrice.ToString("c")</h5>
+            if (Model.UserEmail != User.Identity.Name)
+            {
+                <h4 class="lotname">@Html.ActionLink("Купить лот", "LinkLot", new { Model.LotID })</h4>
+            }
+
+        }
+
+    </div>
+
+</div>

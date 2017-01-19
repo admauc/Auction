@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Auctions.Domain.Entities.Lot>
+@{
+    ViewBag.Title = "Ваш лот";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 id="titH2">Ваш лот</h2>
+
+@foreach (var item in Model)
+{
+    <h2 id="main_title">@item.Name</h2>
+        <table class="Grid" style="table-layout: auto; margin: auto;">
+            <tr class="NumericCol2">
+                <th>Название лота</th>
+                <td style="font-size: 20px; font-weight: bolder;">
+                    <p style="color: yellow;">@item.Name</p>
+                </td>
+
+            </tr>
+            <tr class="NumericCol2">
+                <th>Начальная цена</th>
+                <td>@item.StartPrice.ToString("c")</td>
+            </tr>
+            <tr class="NumericCol2">
+                <th>Текущая ставка</th>
+                <td>
+                    @if (item.CurrentPrice > item.StartPrice)
+                    {
+                        @item.CurrentPrice.ToString("c")<br>
+                    }
+                    else
+                    {
+                        @:Ставок еще нет
+                }
+                </td>
+            </tr>
+            <tr class="NumericCol2">
+                @if (item.BuyPrice > 0)
+                {
+                    <th>Стоймость выкупа</th>
+                }
+                @if (item.BuyPrice > 0)
+                {
+                    <td>
+                        @item.BuyPrice.ToString("c")<br />
+                    </td>
+                }
+            </tr>
+            <tr class="NumericCol2">
+                <th>Описание</th>
+                <td>@item.Description</td>
+            </tr>
+            <tr class="NumericCol2">
+                <th>Время действия</th>
+                <td>с @item.StartDate.Day.@item.StartDate.Month.@item.StartDate.Year<br>по @item.EndDate.Day.@item.EndDate.Month.@item.EndDate.Year</td>
+            </tr>
+            <tr class="NumericCol2">
+                <th>Фото</th>
+                <td>
+                    <img id="ere" src="@Url.Action("GetImage", "Lot", new { item.LotID })" />
+                </td>
+            </tr>
+        </table>
+        <hr style="margin-top: 20px;
+        margin-bottom: 30px;
+        margin-right: 40px;
+        margin-left:20px;
+        border: 0;
+        border: 1px solid #efb764;
+        box-shadow: 0px 1px 8px 1px black;" />
+}
+
+<p>@Html.ActionLink("Создать новый лот", "Create")</p>
+
