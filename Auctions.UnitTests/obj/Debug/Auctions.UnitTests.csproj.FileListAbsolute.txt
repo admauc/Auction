@@ -1,0 +1,1 @@
+C:\Users\User\Documents\Visual Studio 2015\Projects\Auctions\Auctions.UnitTests\obj\Debug\Auctions.UnitTests.csprojResolveAssemblyReference.cache
